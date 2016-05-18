@@ -5,19 +5,6 @@ class User
 {
     private $name;
     private $externalId;
-    private $username;
-
-    public function getUsername(): string
-    {
-        return $this->username;
-    }
-
-    public function setUsername($username): User
-    {
-        $this->username = $username;
-
-        return $this;
-    }
 
     public function getExternalId(): string
     {

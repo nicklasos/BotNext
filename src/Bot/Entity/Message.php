@@ -7,12 +7,12 @@ class Message
     private $from;
     private $chat;
 
-    public function __construct($text = null)
+    public function __construct(string $text = null)
     {
         $this->text = $text;
     }
 
-    public function setText($text): Message
+    public function setText(string $text): Message
     {
         $this->text = $text;
 

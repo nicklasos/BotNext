@@ -5,7 +5,7 @@ class Chat
 {
     private $id;
 
-    public function __construct($id)
+    public function __construct(string $id = null)
     {
         $this->id = $id;
     }
@@ -15,7 +15,7 @@ class Chat
         return $this->id;
     }
 
-    public function setId($id)
+    public function setId(string $id)
     {
         $this->id = $id;
     }
