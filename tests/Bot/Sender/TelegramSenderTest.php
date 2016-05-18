@@ -5,9 +5,8 @@ use Bot\Entity\Chat;
 use Bot\Entity\Message;
 use Prophecy\Argument;
 use Telegram\Bot\Api;
-use TestCase;
 
-class TelegramSenderTest extends TestCase
+class TelegramSenderTest extends \TestCase
 {
     public function testSendMessage()
     {
