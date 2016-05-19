@@ -12,11 +12,7 @@ class TelegramSenderTest extends \TestCase
     {
         $api = $this->prophesize(Api::class);
         
-        $api->sendMessage(Argument::any())
-            ->willReturn([
-                'chat_id' => 'chatId',
-                'text' => 'Hi',
-            ])->shouldBeCalled();
+        $api->sendMessage(Argument::any())->shouldBeCalled();
 
         $sender = new TelegramSender($api->reveal());
         $sender->send((new Message('Hi'))->setChat(new Chat('chatId')));

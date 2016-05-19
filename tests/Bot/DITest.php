@@ -1,20 +1,17 @@
 <?php
 namespace Bot;
 
-use DI\ContainerBuilder;
+use Helpers;
 use Telegram\Bot\Api;
 use TestCase;
 
 class DITest extends TestCase
 {
+    use Helpers;
+    
     public function testDI()
     {
-        $builder = new ContainerBuilder();
-
-        $builder->addDefinitions(__DIR__ . "/../../config/main.php");
-        $builder->addDefinitions(__DIR__ . "/../../config/dependencies.php");
-        
-        $container = $builder->build();
+        $container = $this->getContainer();
 
         $api = $container->get(Api::class);
         $this->assertInstanceOf(Api::class, $api);

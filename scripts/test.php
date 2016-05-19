@@ -2,26 +2,21 @@
 
 require dirname(__DIR__) . '/vendor/autoload.php';
 
+use Bot\Bot;
 use Bot\Entity\Message;
 use Bot\Receiver\TelegramReceiver;
-use Bot\Sender\TelegramSender;
-use Telegram\Bot\Api;
+use Bot\Sender\MessageSender;
 
-$telegram = new Api('secret');
+$bot = new Bot();
 
-$sender = new TelegramSender($telegram);
-$receiver = new TelegramReceiver($telegram);
-
-$bot = new \Bot\Bot();
-
-$bot->onMessage(function (Message $message) use ($sender) {
-    $response = new Message();
-    $response->setText('You say: ' . $message->getText());
-    $response->setChat($message->getChat());
-
-    $sender->send($response);
+$bot->onMessage(function (Message $message, MessageSender $sender) {
+    $sender->send(new Message(
+       'You say: ' . $message->getText(),
+        $message->getChat()
+    ));
 });
 
+$receiver = $bot->getContainer()->get(TelegramReceiver::class);
 
 foreach ($receiver->getMessages() as $message) {
 

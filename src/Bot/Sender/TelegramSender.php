@@ -16,11 +16,21 @@ class TelegramSender implements Sender
         $this->telegram = $telegram;
     }
 
-    public function send(Message $message)
+    public function send(Message $message): bool
     {
-        $this->telegram->sendMessage([
-            'chat_id' => $message->getChat()->getId(),
-            'text' => $message->getText(),
-        ]);
+        try {
+            $this->telegram->sendMessage([
+                'chat_id' => $message->getChat()->getId(),
+                'text' => $message->getText(),
+            ]);
+        } catch (\Exception $e) {
+            
+            // TODO: move to monolog
+            error_log('Telegram exception: ' . $e->getMessage());
+            
+            return false;
+        }
+        
+        return true;
     }
 }

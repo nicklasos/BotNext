@@ -2,6 +2,7 @@
 namespace Bot;
 
 use Bot\Entity\Message;
+use DI\Container;
 use DI\ContainerBuilder;
 
 class Bot
@@ -9,7 +10,7 @@ class Bot
     private $onMessage;
 
     /**
-     * @var \DI\Container
+     * @var Container
      */
     private $container;
 
@@ -23,6 +24,11 @@ class Bot
         $container = $builder->build();
         
         $this->container = $container;
+    }
+
+    public function getContainer(): Container
+    {
+        return $this->container;
     }
 
     public function onMessage(callable $callback)
