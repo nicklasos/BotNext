@@ -19,7 +19,7 @@ class TelegramReceiverTest extends TestCase
         $api->getUpdates()->willReturn($messages);
 
         $receiver = new TelegramReceiver($api->reveal());
-        
+
         $receiveMessages = $receiver->getMessages();
 
         $this->assertInstanceOf(Message::class, $receiveMessages[0]);

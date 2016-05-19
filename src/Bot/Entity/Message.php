@@ -7,9 +7,15 @@ class Message
     private $from;
     private $chat;
 
-    public function __construct(string $text = null)
+    public function __construct(string $text = null, $to = null)
     {
         $this->text = $text;
+        
+        if ($to instanceof Chat) {
+            $this->setChat($to);
+        } elseif ($to instanceof User) {
+            $this->setFrom($to);
+        }
     }
 
     public function setText(string $text): Message

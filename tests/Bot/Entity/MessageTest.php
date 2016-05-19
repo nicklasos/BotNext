@@ -23,4 +23,14 @@ class MessageTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals('Foo', (new Message('Foo'))->getText());
     }
+
+    public function testMultiParamsInConstructor()
+    {
+        $message = new Message('Hello', new Chat(1));
+        $this->assertEquals(1, $message->getChat()->getId());
+        
+        
+        $message = new Message('Hi!', (new User())->setName('Boris'));
+        $this->assertEquals('Boris', $message->getFrom()->getName());
+    }
 }

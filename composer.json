@@ -1,7 +1,8 @@
 {
     "require": {
         "php": ">=7.0",
-        "irazasyed/telegram-bot-sdk": "^2.0"
+        "irazasyed/telegram-bot-sdk": "^2.0",
+        "php-di/php-di": "^5.2"
     },
     "require-dev": {
         "phpunit/phpunit": "5.3.*"

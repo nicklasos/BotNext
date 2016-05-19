@@ -9,16 +9,23 @@ use Telegram\Bot\Api;
 
 $telegram = new Api('secret');
 
-$receiver = new TelegramReceiver($telegram);
 $sender = new TelegramSender($telegram);
+$receiver = new TelegramReceiver($telegram);
 
-foreach ($receiver->getMessages() as $message) {
+$bot = new \Bot\Bot();
 
+$bot->onMessage(function (Message $message) use ($sender) {
     $response = new Message();
     $response->setText('You say: ' . $message->getText());
     $response->setChat($message->getChat());
 
     $sender->send($response);
+});
+
+
+foreach ($receiver->getMessages() as $message) {
+
+    $bot->receive($message);
 
     break;
 }
