@@ -13,7 +13,7 @@ class TelegramSenderTest extends \TestCase
     public function testSendMessage()
     {
         $api = $this->prophesize(Api::class);
-        
+
         $api->sendMessage(Argument::any())->shouldBeCalled();
 
         $sender = new TelegramSender($api->reveal());
@@ -23,22 +23,22 @@ class TelegramSenderTest extends \TestCase
     public function testSendPhoto()
     {
         $api = $this->prophesize(Api::class);
-        
+
         $api->sendPhoto([
             'chat_id' => 1,
             'photo' => 'img.png',
         ])->shouldBeCalled();
-        
+
         $api->sendMessage()->shouldNotBeCalled();
-        
+
         $sender = new TelegramSender($api->reveal());
-        
+
         $message = new Message(new Chat(1));
         $message->setImage(new Image('img.png'));
-            
+
         $sender->send($message);
     }
-    
+
     public function testSendPhotoWithCaption()
     {
         $api = $this->prophesize(Api::class);
@@ -66,14 +66,19 @@ class TelegramSenderTest extends \TestCase
     {
         $api = $this->prophesize(Api::class);
 
-        $api->sendMessage(['chat_id' => 1, 'reply_markup' => [
-            ['Foo'],
-            ['Bar'],
-        ]])->shouldBeCalled();
+        $api->sendMessage([
+            'chat_id' => 1,
+            'reply_markup' => 'markup',
+        ])->shouldBeCalled();
+
+        $api->replyKeyboardMarkup([
+            'keyboard' => [['Foo'], ['Bar']],
+            'resize_keyboard' => true, 
+        ])->willReturn('markup')->shouldBeCalled();
 
         $message = new Message(new Chat(1));
         $message->setKeyboard(new Keyboard(['Foo', 'Bar']));
-        
+
         $sender = new TelegramSender($api->reveal());
         $sender->send($message);
     }

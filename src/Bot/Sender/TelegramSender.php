@@ -38,9 +38,14 @@ class TelegramSender implements Sender
             $params = [];
 
             if ($message->getKeyboard()) {
-                $params['reply_markup'] = array_map(function ($button) {
+                $buttons = array_map(function ($button) {
                     return [$button];
                 }, $message->getKeyboard()->getButtons());
+
+                $params['reply_markup'] = $this->telegram->replyKeyboardMarkup([
+                    'keyboard' => $buttons,
+                    'resize_keyboard' => true,
+                ]);
             }
 
             if ($message->getText()) {

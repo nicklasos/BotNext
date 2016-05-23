@@ -30,7 +30,6 @@ class TelegramReceiver implements Receiver
         foreach ($this->telegram->getUpdates() as $update) {
             $message = new Message($update->getMessage()->getText());
             $message->setFrom(new User());
-
             $message->setChat(new Chat(
                 $update->getMessage()->getChat()->getId(),
                 Platform::TELEGRAM

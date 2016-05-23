@@ -2,25 +2,24 @@
 
 ###Usage
 ```php
-use Bot\Bot;
-use Bot\Entity\Message;
-use Bot\Receiver\TelegramReceiver;
-use Bot\Sender\MessageSender;
+use Bot\{
+    Bot,
+    Entity\Keyboard,
+    Entity\Message,
+    Entity\Image,
+    Receiver\TelegramReceiver,
+    Sender\MessageSender
+};
 
 $bot = new Bot();
 
 $bot->onMessage(function (Message $message, MessageSender $sender) {
-    $message = new Message('You say: ' . $message->getText());
+    $response = new Message('You say: ' . $message->getText());
+    $response->setChat($message->getChat());
+    $response->setKeyboard(new Keyboard(['Help', 'About']));
+    $response->setImage(new Image('hello.png'));
 
-    $message->setImage(new Image('hello.png'));
-
-    $message->setKeyboard(new Keyboard([
-        'Help',
-        'Settings',
-        'About',
-    ]));
-
-    $sender->send($message);
+    $sender->send($response);
 });
 
 $receiver = $bot->getContainer()->get(TelegramReceiver::class);
@@ -30,4 +29,6 @@ foreach ($receiver->getMessages() as $message) {
     $bot->receive($message);
 
 }
+
+
 ```
