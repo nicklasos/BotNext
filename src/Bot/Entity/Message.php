@@ -5,16 +5,31 @@ class Message
 {
     private $text;
     private $from;
+    private $to;
     private $chat;
 
-    public function __construct(string $text = null, $to = null)
+    /**
+     * @var Image
+     */
+    private $image;
+
+    /**
+     * @var Keyboard
+     */
+    private $keyboard;
+
+    public function __construct($text = null, $to = null)
     {
-        $this->text = $text;
+        if (gettype($text) === 'string') {
+            $this->text = $text;
+        } else {
+            $to = $text;
+        }
         
         if ($to instanceof Chat) {
             $this->setChat($to);
         } elseif ($to instanceof User) {
-            $this->setFrom($to);
+            $this->setTo($to);
         }
     }
 
@@ -25,7 +40,10 @@ class Message
         return $this;
     }
 
-    public function getText(): string
+    /**
+     * @return string|null
+     */
+    public function getText()
     {
         return $this->text;
     }
@@ -42,7 +60,7 @@ class Message
         return $this;
     }
 
-    public function setChat(Chat $chat)
+    public function setChat(Chat $chat): Message
     {
         $this->chat = $chat;
 
@@ -52,5 +70,50 @@ class Message
     public function getChat(): Chat
     {
         return $this->chat;
+    }
+
+    public function setImage(Image $image)
+    {
+        $this->image = $image;
+        
+        return $this;
+    }
+
+    /**
+     * @return Image|null
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    public function setTo(User $to): Message
+    {
+        $this->to = $to;
+        
+        return $this;
+    }
+
+    /**
+     * @return User|null
+     */
+    public function getTo()
+    {
+        return $this->to;
+    }
+
+    public function setKeyboard(Keyboard $keyboard): Message
+    {
+        $this->keyboard = $keyboard;
+        
+        return $this;
+    }
+
+    /**
+     * @return Keyboard|null
+     */
+    public function getKeyboard()
+    {
+        return $this->keyboard;
     }
 }

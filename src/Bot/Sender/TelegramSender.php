@@ -2,6 +2,8 @@
 namespace Bot\Sender;
 
 use Bot\Entity\Message;
+use Exception;
+use LogicException;
 use Telegram\Bot\Api;
 
 class TelegramSender implements Sender
@@ -16,21 +18,43 @@ class TelegramSender implements Sender
         $this->telegram = $telegram;
     }
 
-    public function send(Message $message): bool
+    public function send(Message $message)
     {
         try {
-            $this->telegram->sendMessage([
-                'chat_id' => $message->getChat()->getId(),
-                'text' => $message->getText(),
-            ]);
-        } catch (\Exception $e) {
-            
+
+            if ($image = $message->getImage()) {
+                $params = [
+                    'chat_id' => $message->getChat()->getId(),
+                    'photo' => $image->getFilePath(),
+                ];
+
+                if ($image->getCaption()) {
+                    $params['caption'] = $image->getCaption();
+                }
+
+                $this->telegram->sendPhoto($params);
+            }
+
+            $params = [];
+
+            if ($message->getKeyboard()) {
+                $params['reply_markup'] = array_map(function ($button) {
+                    return [$button];
+                }, $message->getKeyboard()->getButtons());
+            }
+
+            if ($message->getText()) {
+                $params['text'] = $message->getText();
+            }
+
+            if ($params) {
+                $params['chat_id'] = $message->getChat()->getId();
+                $this->telegram->sendMessage($params);
+            }
+
+        } catch (Exception $e) {
             // TODO: move to monolog
             error_log('Telegram exception: ' . $e->getMessage());
-            
-            return false;
         }
-        
-        return true;
     }
 }

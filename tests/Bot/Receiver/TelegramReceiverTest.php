@@ -1,10 +1,10 @@
 <?php
 namespace Bot\Receiver;
 
-use Bot\Entity\Chat;
 use Bot\Entity\Message;
 use Bot\Platform;
 use Telegram\Bot\Api;
+use Telegram\Bot\Objects\Chat;
 use Telegram\Bot\Objects\Update;
 use TestCase;
 
@@ -41,7 +41,7 @@ class TelegramReceiverTest extends TestCase
             ->setMethods(['getText', 'getChat'])
             ->getMock();
         
-        $chat = $this->getMockBuilder(\Telegram\Bot\Objects\Chat::class)
+        $chat = $this->getMockBuilder(Chat::class)
             ->disableOriginalConstructor()
             ->setMethods(['getId'])
             ->getMock();

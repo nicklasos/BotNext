@@ -10,10 +10,17 @@ use Bot\Sender\MessageSender;
 $bot = new Bot();
 
 $bot->onMessage(function (Message $message, MessageSender $sender) {
-    $sender->send(new Message(
-       'You say: ' . $message->getText(),
-        $message->getChat()
-    ));
+    $message = new Message('You say: ' . $message->getText());
+
+    $message->setImage(new Image('hello.png'));
+
+    $message->setKeyboard(new Keyboard([
+        'Help',
+        'Settings',
+        'About',
+    ]));
+
+    $sender->send($message);
 });
 
 $receiver = $bot->getContainer()->get(TelegramReceiver::class);
@@ -22,6 +29,5 @@ foreach ($receiver->getMessages() as $message) {
 
     $bot->receive($message);
 
-    break;
 }
 ```
