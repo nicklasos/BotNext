@@ -21,4 +21,4 @@ $bot->onMessage(function (Message $message, MessageSender $sender) {
     $sender->send($response);
 });
 
-$bot->receiveMessages();
+$bot->receiveTelegramMessages();

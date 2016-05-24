@@ -13,6 +13,7 @@ use Bot\{
     Sender\MessageSender
 };
 
+// You can override any setting from config/main.php and config/dependencies.php
 $bot = new Bot([
     'telegram.secret' => getenv('TELEGRAM_TEST_SECRET'),
 ]);
@@ -53,5 +54,5 @@ foreach ($receiver->getMessages() as $message) {
 
 // or
 
-$bot->receiveMessages();
+$bot->receiveTelegramMessages();
 ```
