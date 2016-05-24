@@ -18,14 +18,12 @@ class Bot
     public function __construct(array $params)
     {
         $builder = new ContainerBuilder();
-        
+
         $builder->addDefinitions(array_dot_flatten(require ROOT . '/config/main.php'));
         $builder->addDefinitions(ROOT . '/config/dependencies.php');
         $builder->addDefinitions(array_dot_flatten($params));
-        
-        $container = $builder->build();
-        
-        $this->container = $container;
+
+        $this->container = $builder->build();
     }
 
     public function getContainer(): Container
@@ -44,15 +42,14 @@ class Bot
         $this->container->call($this->onMessage);
     }
 
-    public function receiveTelegramMessages()
+    public function receiveMessages()
     {
-        /**
-         * @var TelegramReceiver $receiver
-         */
-        $receiver = $this->container->get(TelegramReceiver::class);
-
-        foreach ($receiver->getMessages() as $message) {
-            $this->receive($message);
+        if ($this->container->has('telegram.secret')) {
+            $this->container->call(function (TelegramReceiver $receiver) {
+                foreach ($receiver->getMessages() as $message) {
+                    $this->receive($message);
+                }
+            });
         }
     }
 }

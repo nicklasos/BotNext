@@ -53,5 +53,5 @@ foreach ($receiver->getMessages() as $message) {
 
 // or
 
-$bot->receiveTelegramMessages();
+$bot->receiveMessages();
 ```
