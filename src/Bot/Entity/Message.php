@@ -116,4 +116,12 @@ class Message
     {
         return $this->keyboard;
     }
+
+    public function makeResponse(string $text = null)
+    {
+        $message = new Message($text);
+        $message->setChat($this->getChat());
+        
+        return $message;
+    }
 }

@@ -13,10 +13,10 @@ use Bot\{
 $bot = new Bot();
 
 $bot->onMessage(function (Message $message, MessageSender $sender) {
-    $response = new Message('You say: ' . $message->getText());
-    $response->setChat($message->getChat());
+    $response = $message->makeResponse('You say: ' . $message->getText());
+    
     $response->setKeyboard(new Keyboard(['Help', 'About']));
-
+    
     $sender->send($response);
 });
 
@@ -27,4 +27,3 @@ foreach ($receiver->getMessages() as $message) {
     $bot->receive($message);
 
 }
-

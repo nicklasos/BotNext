@@ -58,4 +58,18 @@ class MessageTest extends \PHPUnit_Framework_TestCase
         $message->setImage(new Image('img.png'));
         $this->assertEquals('img.png', $message->getImage()->getFilePath());
     }
+
+    public function testMakeResponse()
+    {
+        $message = new Message(new Chat(2));
+        
+        $response = $message->makeResponse();
+
+        $this->assertInstanceOf(Message::class, $response);
+        $this->assertEquals(2, $response->getChat()->getId());
+        
+        
+        $response = $message->makeResponse('Hi');
+        $this->assertEquals('Hi', $response->getText());
+    }
 }
