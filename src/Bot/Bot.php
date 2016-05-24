@@ -14,13 +14,14 @@ class Bot
      */
     private $container;
 
-    public function __construct()
+    public function __construct(array $params)
     {
         $builder = new ContainerBuilder();
         
-        // TODO: maybe add some path constant
-        $builder->addDefinitions(__DIR__ . "/../../config/main.php");
-        $builder->addDefinitions(__DIR__ . "/../../config/dependencies.php");
+        $builder->addDefinitions(array_dot_flatten(require ROOT . '/config/main.php'));
+        $builder->addDefinitions(ROOT . '/config/dependencies.php');
+        $builder->addDefinitions(array_dot_flatten($params));
+        
         $container = $builder->build();
         
         $this->container = $container;

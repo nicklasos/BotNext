@@ -1,6 +1,8 @@
 #Bot
 
 ###Usage
+Create .env file in root folder (you can use example.env as example)
+
 ```php
 use Bot\{
     Bot,
@@ -11,10 +13,12 @@ use Bot\{
     Sender\MessageSender
 };
 
-$bot = new Bot();
+$bot = new Bot([
+    'telegram.secret' => getenv('TELEGRAM_TEST_SECRET'),
+]);
 
 /**
- * Dependency Injection
+ * DI
  * @see http://php-di.org
  */
 $bot->onMessage(function (Message $message, MessageSender $sender) {

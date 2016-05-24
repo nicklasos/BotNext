@@ -9,7 +9,7 @@ class BotTest extends TestCase
 {
     public function testOnMessage()
     {
-        $bot = new Bot();
+        $bot = new Bot([]);
         
         $receivedMessage = null;
         
@@ -24,7 +24,7 @@ class BotTest extends TestCase
 
     public function testDI()
     {
-        $bot = new Bot();
+        $bot = new Bot([]);
         
         $received = false;
         $bot->onMessage(function (User $user) use (&$received) {

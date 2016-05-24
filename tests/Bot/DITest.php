@@ -11,7 +11,9 @@ class DITest extends TestCase
     
     public function testDI()
     {
-        $container = $this->getContainer();
+        $container = $this->getContainer([
+            'telegram.secret' => 'secret',
+        ]);
 
         $api = $container->get(Api::class);
         $this->assertInstanceOf(Api::class, $api);
