@@ -39,6 +39,7 @@ $bot->onMessage(function (Message $message, MessageSender $sender) {
 
 
     $response->setKeyboard(new Keyboard(['Help', 'About']));
+    $response->setImage(new Image(ASSETS . '/test/bender.png'));
 
     $sender->send($response);
 });

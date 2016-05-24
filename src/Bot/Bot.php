@@ -16,7 +16,7 @@ class Bot
      */
     private $container;
 
-    public function __construct(array $params)
+    public function __construct(array $params = [])
     {
         $builder = new ContainerBuilder();
 

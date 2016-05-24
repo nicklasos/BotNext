@@ -1,24 +1,24 @@
 <?php
 
+use Bot\Entity\User;
+
 require dirname(__DIR__) . '/bootstrap.php';
 
-use Bot\{
-    Bot,
-    Entity\Keyboard,
-    Entity\Message,
-    Sender\MessageSender
-};
-
-$bot = new Bot([
-    'telegram.secret' => getenv('TELEGRAM_TEST_SECRET'),
+$redis = new Predis\Client(null, [
+    'prefix' => 'test:',
 ]);
 
-$bot->onMessage(function (Message $message, MessageSender $sender) {
-    $response = $message->makeResponse('You say: ' . $message->getText());
-    
-    $response->setKeyboard(new Keyboard(['Help', 'About']));
-    
-    $sender->send($response);
-});
+$userRepository = new \Bot\Repository\UserRepository($redis);
 
-$bot->receiveTelegramMessages();
+$user = new User();
+$user->setName('Nicklasos');
+$user->setId(1);
+
+$userRepository->save($user);
+
+$user = $userRepository->findById(1);
+
+var_dump($user->getName());
+
+$userRepository->deleteById(1);
+

@@ -3,8 +3,21 @@ namespace Bot\Entity;
 
 class User
 {
+    private $id;
     private $name;
     private $externalId;
+
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
+    public function setId(string $id): User
+    {
+        $this->id = $id;
+        
+        return $this;
+    }
 
     public function getExternalId(): string
     {

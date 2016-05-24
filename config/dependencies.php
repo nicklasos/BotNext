@@ -14,6 +14,7 @@ use function DI\{
 };
 
 return [
+    Predis\Client::class => object()->constructorParameter('options', ['prefix' => 'bot:']),
     MessageSender::class => function (Container $c) {
         return new MessageSender([
             Platform::TELEGRAM => $c->get(TelegramSender::class)
