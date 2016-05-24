@@ -1,7 +1,7 @@
 #Bot
 
 ###Usage
-Create .env file in root folder (you can use example.env as example)
+Create .env file in root folder (you can use example.env as an example)
 
 ```php
 use Bot\{
@@ -51,4 +51,7 @@ foreach ($receiver->getMessages() as $message) {
     $bot->receive($message);
 }
 
+// or
+
+$bot->receiveTelegramMessages();
 ```

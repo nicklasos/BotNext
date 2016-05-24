@@ -2,6 +2,7 @@
 namespace Bot;
 
 use Bot\Entity\Message;
+use Bot\Receiver\TelegramReceiver;
 use DI\Container;
 use DI\ContainerBuilder;
 
@@ -41,5 +42,17 @@ class Bot
     {
         $this->container->set(Message::class, $message);
         $this->container->call($this->onMessage);
+    }
+
+    public function receiveTelegramMessages()
+    {
+        /**
+         * @var TelegramReceiver $receiver
+         */
+        $receiver = $this->container->get(TelegramReceiver::class);
+
+        foreach ($receiver->getMessages() as $message) {
+            $this->receive($message);
+        }
     }
 }
